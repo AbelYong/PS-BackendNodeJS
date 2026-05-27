@@ -1,0 +1,47 @@
+{
+  "name": "backend-node",
+  "version": "1.0.0",
+  "description": "Backend del Proyecto final de Programacion Segura",
+  "license": "ISC",
+  "author": "AbelYong",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:seed": "node dist/seed.js",
+    "build": "tsup src/index.ts src/seed.ts --format esm --clean",
+    "start": "node dist/index.js",
+    "swagger": "tsx ./swagger.ts",
+    "dev": "tsx watch src/index.ts",
+    "test": "echo \"Error: no test specified\" & exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^1.0.0-beta.22",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "mysql2": "^3.22.3",
+    "request-ip": "^3.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^25.9.1",
+    "@types/request-ip": "^0.0.41",
+    "@types/swagger-ui-express": "^4.1.8",
+    "drizzle-kit": "^1.0.0-beta.22",
+    "swagger-autogen": "^2.23.7",
+    "tsup": "^8.5.1",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
+  }
+}

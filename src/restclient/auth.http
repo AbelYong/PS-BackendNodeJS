@@ -1,0 +1,37 @@
+@token = tokenHere
+
+###
+
+POST http://localhost:3030/api/auth
+Content-Type: application/json
+
+{
+    "email": "gvera@uv.mx",
+    "password": "Super_4dm1in"
+}
+
+###
+
+GET http://localhost:3030/api/categorias
+Authorization: Bearer {{token}}
+
+###
+
+POST http://localhost:3030/api/auth 
+Content-Type: application/json
+{
+    "email": "patito@uv.mx",
+    "password": "No3sPatit0"
+}
+
+###
+
+GET http://localhost:3030/api/auth/tiempo
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:3030/api/roles
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###

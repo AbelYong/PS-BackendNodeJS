@@ -1,0 +1,36 @@
+@token = tokenHere
+###
+
+GET http://localhost:3030/api/usuarios
+Authorization: Bearer {{token}}
+
+###
+
+POST http://localhost:3030/api/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "email": "pingu@igloo.com",
+    "password": "5uperClav€",
+    "nombre": "pingu",
+    "rol": "Usuario"
+}
+
+###
+
+PUT http://localhost:3030/api/usuarios/pingu@igloo.com
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "email": "pingu@igloo.com",
+    "password": "5uperClav€",
+    "nombre": "sudo pingu",
+    "rol": "Administrador"
+}
+
+###
+
+DELETE http://localhost:3030/api/usuarios/pingu@igloo.com
+Authorization: Bearer {{token}}
