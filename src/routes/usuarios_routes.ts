@@ -5,12 +5,14 @@ import { validateParams, validateBody } from "../middlewares/request_validator.j
 import { Administrador } from "../config/roles.js";
 import {
     emailSchema,
-    usuarioSchema
+    usuarioSchema,
+    clienteSchema
 } from "../schemas/usuario_schema.js"
 import {
     get,
     getAll,
     create,
+    registrarCliente,
     update,
     eliminate
 } from "../controllers/usuarios_controller.js"
@@ -22,6 +24,8 @@ router.get("/", authorize(Administrador), asyncHandler(getAll));
 router.get("/:email", authorize(Administrador), asyncHandler(get));
 
 router.post("/", authorize(Administrador), validateBody(usuarioSchema), asyncHandler(create));
+
+router.post("/clientes", validateBody(clienteSchema), asyncHandler(registrarCliente));
 
 router.put("/:email", authorize(Administrador), validateParams(emailSchema), validateBody(usuarioSchema), asyncHandler(update));
 
