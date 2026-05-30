@@ -1,0 +1,38 @@
+
+@autenticadoToken = 
+@adminToken = 
+
+###
+
+GET http://localhost:3030/api/productos?titulo=samsung
+Authorization: Bearer {{autenticadoToken}}
+
+###
+
+@productoId = productoIdHere
+
+POST http://localhost:3030/api/productos
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "titulo": "Producto de prueba",
+    "descripcion": "Descripción del producto de prueba",
+    "precio": 19.99,
+    "archivoId": 100
+}
+
+###
+
+PUT http://localhost:3030/api/productos/{{productoId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "titulo": "Producto de prueba actualizado",
+    "descripcion": "Descripción actualizada del producto de prueba",
+    "precio": 29.99,
+    "archivoId": 101
+}
+
+###

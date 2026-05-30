@@ -13,7 +13,7 @@ export const getAll = async (req: Request<{}, {}, {}, BusquedaInput> ,res: Respo
             producto: {
                 id: Producto.id,
                 titulo: Producto.titulo,
-                decripcion: Producto.descripcion,
+                descripcion: Producto.descripcion,
                 precio: Producto.precio,
                 archivoId: Producto.archivoId
             },
@@ -23,9 +23,9 @@ export const getAll = async (req: Request<{}, {}, {}, BusquedaInput> ,res: Respo
                 protegida: Categoria.protegida
             }
         })
-        .from(CategoriaProducto)
-        .innerJoin(Producto, eq(CategoriaProducto.productoId, Producto.id))
-        .innerJoin(Categoria, eq(CategoriaProducto.categoriaId, Categoria.id))
+        .from(Producto) 
+        .leftJoin(CategoriaProducto, eq(Producto.id, CategoriaProducto.productoId))
+        .leftJoin(Categoria, eq(CategoriaProducto.categoriaId, Categoria.id))
         .where(like(Producto.titulo, `%${tituloBuscado}%`));
 
     res.status(200).json(productos);
@@ -39,7 +39,7 @@ export const get = async (req: Request<IdInput>, res: Response) => {
             producto: {
                 id: Producto.id,
                 titulo: Producto.titulo,
-                decripcion: Producto.descripcion,
+                descripcion: Producto.descripcion,
                 precio: Producto.precio,
                 archivoId: Producto.archivoId
             },
