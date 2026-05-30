@@ -8,6 +8,7 @@ import { rolesRouter } from "./routes/roles_routes.js";
 import { authRouter } from "./routes/auth_routes.js";
 import { archivosRouter } from "./routes/archivos_routes.js";
 import { bitacoraRouter } from "./routes/bitacora_routes.js";
+import { carritoRouter } from "./routes/carrito_routes.js";
 import { errorHandler } from "./middlewares/errorhandler.js";
 import { bitacoraLogger } from "./middlewares/bitacora.js";
 import swaggerUi from "swagger-ui-express";
@@ -55,6 +56,8 @@ app.use("/api/roles", rolesRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/archivos", archivosRouter);
 app.use("/api/bitacora", bitacoraRouter);
+app.use("/api/carritos", carritoRouter);
+
 app.get("/*splat", (_req: Request, res: Response) => res.status(404).json({message: "Recurso no encontrado"}));
 
 // Ultimo middleware

@@ -1,0 +1,35 @@
+@token = 
+@carritoId = 1
+@productoId = 2
+
+###
+
+GET http://localhost:3030/api/carritos
+Authorization: Bearer {{token}}
+
+###
+
+POST http://localhost:3030/api/carritos
+Authorization: Bearer {{token}}
+
+###
+
+PUT http://localhost:3030/api/carritos/{{carritoId}}/producto/{{productoId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "cantidad": 5
+}
+
+###
+
+DELETE http://localhost:3030/api/carritos/{{carritoId}}/producto/{{productoId}}
+Authorization: Bearer {{token}}
+
+###
+
+POST http://localhost:3030/api/carritos/{{carritoId}}/checkout
+Authorization: Bearer {{token}}
+
+###

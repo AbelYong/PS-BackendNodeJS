@@ -26,6 +26,18 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3030/api/auth
+Content-Type: application/json
+
+{
+    "email": "cliente@correo.com",
+    "password": "Cl13ente?"
+}
+
+###
+
+###
+
 GET http://localhost:3030/api/auth/tiempo
 Authorization: Bearer {{token}}
 
