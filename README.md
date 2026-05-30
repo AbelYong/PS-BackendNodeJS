@@ -29,5 +29,5 @@ docker compose up --build
 Ejecute este comando para poblar la base de datos:
 
 ```bash
-docker compose exec mercado-libre-node npm run db:seed
+docker compose exec -u mercado_libre mercado-libre-node npm run db:seed
 ```

@@ -152,3 +152,5 @@ logs/*
 !logs/.gitkeep
 uploads/*
 !uploads/.gitkeep
+seed-images/*
+!seed-images/.gitkeep

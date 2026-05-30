@@ -7,6 +7,8 @@ COPY tsconfig.json ./
 COPY src ./src
 COPY swagger-output.json ./
 COPY logs ./logs
+COPY seed-images ./seed-images
+COPY uploads ./uploads
 RUN npm run build
 
 FROM node:24-alpine AS runner-base
@@ -29,11 +31,16 @@ USER mercado_libre
 ENV NODE_ENV=development
 COPY --from=builder --chown=root:root --chmod=755 /app/src ./src
 COPY --from=builder --chown=root:root --chmod=755 /app/swagger-output.json ./
-COPY --from=builder --chown=root:root --chmod=755 /app/logs ./logs
+COPY --from=builder --chown=mercado_libre:mercado_libre --chmod=700 /app/logs ./logs
+COPY --from=builder --chown=mercado_libre:mercado_libre --chmod=700 /app/seed-images ./seed-images
+COPY --from=builder --chown=mercado_libre:mercado_libre --chmod=700 /app/uploads ./uploads
 CMD ["node", "dist/index.js"]
 
 FROM runner-base AS production
 
 USER mercado_libre
 ENV NODE_ENV=production
+COPY --from=builder --chown=mercado_libre:mercado_libre --chmod=700 /app/logs ./logs
+COPY --from=builder --chown=mercado_libre:mercado_libre --chmod=700 /app/seed-images ./seed-images
+COPY --from=builder --chown=mercado_libre:mercado_libre --chmod=700 /app/uploads ./uploads
 CMD ["node", "dist/index.js"]
