@@ -11,6 +11,10 @@ export type ProductoInput = z.infer<typeof productoSchema>
 
 export const busquedaSchema = z.object({
     titulo: z.string().max(255)
+    .transform((val) => {
+            const espacioLimpio = val.replaceAll('+', ' ');
+            return espacioLimpio.trim();
+        })
 })
 
 export type BusquedaInput = z.infer<typeof busquedaSchema>
