@@ -2,8 +2,9 @@ import { Request, Response } from "express"
 import bcrypt from "bcrypt"
 import { db } from "../drizzle/db.js"
 import { Usuario } from "../drizzle/schema.js"
-import { EmailInput, UsuarioInput } from "../schemas/usuario_schema.js"
+import { ClienteInput, EmailInput, UsuarioInput } from "../schemas/usuario_schema.js"
 import { eq } from "drizzle-orm"
+import { Cliente as ClienteRol } from "../config/roles.js"
 
 export const getAll = async (_req: Request, res: Response): Promise<void> => {
     const data = await db.query.Usuario.findMany({
@@ -170,4 +171,54 @@ export const eliminate = async (req: Request<EmailInput>, res: Response) => {
 
     await req.bitacora("usuarios.eliminar", usuarioExistente.id);
     res.status(204).send();
+}
+
+export const registrarCliente = async (req: Request<{}, {}, ClienteInput>, res: Response) => {
+    const nombreRolCliente = ClienteRol;
+    
+    const rolCliente = await db.query.Rol.findFirst({
+        where: { nombre: nombreRolCliente }
+    });
+
+    if (rolCliente == null) {
+        res.status(404).send();
+        console.warn(`No se encontró el rol de ${nombreRolCliente} en la base de datos`);
+        return;
+    }
+
+    const data = await db.insert(Usuario).values({
+        email: req.body.email,
+        passwordHash: await bcrypt.hash(req.body.password, 10),
+        nombre: req.body.nombre,
+        rolId: rolCliente.id  
+    }).$returningId();
+
+    const newUser = await db.query.Usuario.findFirst({
+        columns: {
+            id: true,
+            email: true,
+            nombre: true,
+        },
+        with: {
+            rol: {
+                columns: {
+                    nombre: true
+                }
+            }
+        },
+        where: { id: data[0]?.id }
+    });
+
+    if (newUser == null) {
+        res.status(500).send();
+        return;
+    }
+
+    await req.bitacora("usuarios.registrarCliente", newUser.id);
+    res.status(201).json({
+        id: newUser.id,
+        email: newUser.email,
+        nombre: newUser.nombre,
+        rol: newUser.rol?.nombre
+    });
 }

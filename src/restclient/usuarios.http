@@ -1,4 +1,5 @@
-@token = tokenHere
+@token = 
+
 ###
 
 GET http://localhost:3030/api/usuarios
@@ -19,6 +20,17 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3030/api/usuarios/clientes
+Content-Type: application/json
+
+{
+    "email": "cliente@correo.com",
+    "password": "Cl13ente?",
+    "nombre": "cliente"
+}
+
+###
+
 PUT http://localhost:3030/api/usuarios/pingu@igloo.com
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -32,5 +44,5 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3030/api/usuarios/pingu@igloo.com
+DELETE http://localhost:3030/api/usuarios/cliente@correo.com
 Authorization: Bearer {{token}}
