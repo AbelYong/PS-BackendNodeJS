@@ -23,5 +23,41 @@ export const relations = defineRelations(schema, (r) => ({
             from: r.Usuario.rolId,
             to: r.Rol.id
         })
+    },
+    Carrito: {
+        cliente: r.one.Usuario({
+            from: r.Carrito.clienteId,
+            to: r.Usuario.id
+        })
+    },
+    ProductoCarrito: {
+        carrito: r.one.Carrito({
+            from: r.ProductoCarrito.carritoId,
+            to: r.Carrito.id
+        }),
+        producto: r.one.Producto({
+            from: r.ProductoCarrito.productoId,
+            to: r.Producto.id
+        })
+    },
+    Pedido: {
+        cliente: r.one.Usuario({
+            from: r.Pedido.clienteId,
+            to: r.Usuario.id
+        }),
+        Carrito: r.one.Carrito({
+            from: r.Pedido.carritoId,
+            to: r.Carrito.id
+        })
+    },
+    ProductoPedido: {
+        pedido: r.one.Pedido({
+            from: r.ProductoPedido.pedidoId,
+            to: r.Pedido.id
+        }),
+        producto: r.one.Producto({
+            from: r.ProductoPedido.productoId,
+            to: r.Producto.id
+        })
     }
 }));

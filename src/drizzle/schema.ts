@@ -81,3 +81,47 @@ export const Bitacora = mysqlTable(
         updatedAt: mysql.date("updated_at").$defaultFn(() => new Date)
     }
 );
+
+export const Carrito = mysqlTable(
+    "carrito", {
+        id: mysql.int("id").autoincrement().unique().notNull(),
+        clienteId: mysql.int("cliente_id").references(() => Usuario.id).notNull(),
+        cerrado: mysql.boolean("cerrado").default(false).notNull(),
+        createdAt: mysql.date("created_at").$defaultFn(() => new Date),
+        updatedAt: mysql.date("updated_at").$defaultFn(() => new Date)
+    }, (table) => [
+        mysql.primaryKey({ columns: [table.id, table.clienteId] })
+    ]
+);
+
+export const ProductoCarrito = mysqlTable(
+    "producto_carrito", {
+        carritoId: mysql.int("carrito_id").references(() => Carrito.id).notNull(),
+        productoId: mysql.int("producto_id").references(() => Producto.id).notNull(),
+        cantidad: mysql.int("cantidad").default(1).notNull()
+    }, (table) => [
+        mysql.primaryKey({ columns: [table.carritoId, table.productoId] })
+    ]
+);
+
+export const Pedido = mysqlTable(
+    "pedido", {
+        id: mysql.int("id").primaryKey().autoincrement().notNull(),
+        clienteId: mysql.int("cliente_id").references(() => Usuario.id).notNull(),
+        carritoId: mysql.int("carrito_id").references(() => Carrito.id).notNull(),
+        total: mysql.decimal("total").notNull(),
+        createdAt: mysql.date("created_at").$defaultFn(() => new Date),
+        updatedAt: mysql.date("updated_at").$defaultFn(() => new Date)
+    }
+)
+
+export const ProductoPedido = mysqlTable(
+    "producto_pedido", {
+        pedidoId: mysql.int("pedido_id").references(() => Pedido.id).notNull(),
+        productoId: mysql.int("producto_id").references(() => Producto.id).notNull(),
+        precio: mysql.decimal("precio").notNull(),
+        cantidad: mysql.int("cantidad").default(1).notNull()
+    }, (table) => [
+        mysql.primaryKey({ columns: [table.pedidoId, table.productoId] })
+    ]
+);
