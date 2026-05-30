@@ -31,7 +31,7 @@ export const tiempoRestanteToken = (req: Request) : string | null => {
         return null;
     }
 
-    const time = (decoded.exp - (new Date().getTime() / 1000));
+    const time = (decoded.exp - (Date.now() / 1000));
     
      if (time < 0) return "00:00:00"; 
 

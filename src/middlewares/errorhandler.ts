@@ -18,6 +18,22 @@ export const errorHandler = (err: any, req: Request, res: Response, _next: NextF
         }
     });
 
+    if (errorCodes.has(err.code)) {
+        res.status(503).json({
+            error: "Service unavaible",
+            message: "A downstream service or database is currently unavaible. Please try again later"
+        });
+        return;
+    }
+
+    if (err.message === "jwt expired") {
+        res.status(401).json({
+            error: "Unauthorized",
+            message: "El token ha expirado. Por favor, inicie sesión nuevamente"
+        });
+        return;
+    }
+
     if (process.env["NODE_ENV"] === "development") {
         mensaje = err.message || mensaje;
         res.status(statusCode).json({
@@ -29,3 +45,11 @@ export const errorHandler = (err: any, req: Request, res: Response, _next: NextF
         res.status(statusCode).send({ mensaje: mensaje });
     }
 }
+
+const errorCodes: Set<string> = new Set([
+    "ECONNREFUSED",
+    "1045",
+    "2006",
+    "1040",
+    "2013"
+]);

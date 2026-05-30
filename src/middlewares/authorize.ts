@@ -11,7 +11,7 @@ export const authorize = (rol: string) => {
         error.statusCode = 401;
         try {
             if (jwtSecret === "") {
-                const message = "El secreto JWT no esta cargado en el entorno" 
+                const message = "El secreto JWT no está cargado en el entorno" 
                 console.warn(message);
                 throw new Error(message);
             }
@@ -20,7 +20,7 @@ export const authorize = (rol: string) => {
 
             if (authHeader == null) {
                 error.statusCode = 400;
-                error.message = "La cabecera Authorization no esta presente" 
+                error.message = "La cabecera Authorization no está presente";
                 return next(error);
             }
             
@@ -45,14 +45,23 @@ export const authorize = (rol: string) => {
                 return next(error);
             }
 
-            req.decodedToken = decodedToken as typeof ClaimTypes || null;
+            req.decodedToken = {
+                name: decodedToken[ClaimTypes.name],
+                givenName: decodedToken[ClaimTypes.givenName],
+                role: decodedToken[ClaimTypes.role]
+            };
 
             const minutosRestantes = (exp - (Date.now() / 1000)) / 60;
 
             if (minutosRestantes < 5) {
-                const nuevoToken = generaToken(decodedToken[ClaimTypes.name], decodedToken[ClaimTypes.givenName], decodedToken[ClaimTypes.role]);
+                const nuevoToken = generaToken(
+                    decodedToken[ClaimTypes.name], 
+                    decodedToken[ClaimTypes.givenName], 
+                    decodedToken[ClaimTypes.role]
+                );
                 res.header("Set-Authorization", nuevoToken);
             }
+            
             next();
         } catch (error) {
             next(error);
