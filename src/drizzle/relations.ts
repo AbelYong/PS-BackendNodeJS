@@ -45,7 +45,7 @@ export const relations = defineRelations(schema, (r) => ({
             from: r.Pedido.clienteId,
             to: r.Usuario.id
         }),
-        Carrito: r.one.Carrito({
+        carrito: r.one.Carrito({
             from: r.Pedido.carritoId,
             to: r.Carrito.id
         })

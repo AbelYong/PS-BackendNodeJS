@@ -1,5 +1,15 @@
 import * as mysql from "drizzle-orm/mysql-core";
-import { mysqlTable } from "drizzle-orm/mysql-core";
+import { mysqlTable, mysqlEnum } from "drizzle-orm/mysql-core";
+
+export const EstadoPedido = mysqlEnum(
+    "estado_pedido", [
+        "pendiente",
+        "aprobado",
+        "enviado",
+        "entregado",
+        "cancelado"
+    ]
+);
 
 export const Categoria = mysqlTable(
     "categoria", {
@@ -110,6 +120,7 @@ export const Pedido = mysqlTable(
         clienteId: mysql.int("cliente_id").references(() => Usuario.id).notNull(),
         carritoId: mysql.int("carrito_id").references(() => Carrito.id).notNull(),
         total: mysql.decimal("total").notNull(),
+        estado: EstadoPedido.$default(() => "pendiente").notNull(),
         createdAt: mysql.date("created_at").$defaultFn(() => new Date),
         updatedAt: mysql.date("updated_at").$defaultFn(() => new Date)
     }

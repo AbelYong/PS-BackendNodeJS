@@ -1,0 +1,42 @@
+@tokenCliente = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiY2xpZW50ZUBjb3JyZW8uY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZ2l2ZW5uYW1lIjoiY2xpZW50ZSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNsaWVudGUiLCJpc3MiOiJQUy1KV1QiLCJhdWQiOiJDbGllbnRlc1BTLUpXVCIsImlhdCI6MTc4MDE3NDYyMSwiZXhwIjoxNzgwMTc1ODIxfQ.ad7V1eNJrSeaPhkB8D0fwVUGhaHsKMKHY73bIbumxf4
+@tokenAdmin = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZ3ZlcmFAdXYubXgiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJHdWlsbGVybW8gVmVyYSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpc3MiOiJQUy1KV1QiLCJhdWQiOiJDbGllbnRlc1BTLUpXVCIsImlhdCI6MTc4MDE4OTg0NiwiZXhwIjoxNzgwMTkxMDQ2fQ.vEd8jC61f3cqgqdw9qjGDFvvTb8FIZkEoDNeAYXiqUs
+
+@pedidoId = 1
+
+###
+
+GET http://localhost:3030/api/pedidos
+Authorization: Bearer {{tokenAdmin}}
+
+###
+
+GET http://localhost:3030/api/pedidos/clientes/{{pedidoId}}
+Authorization: Bearer {{tokenCliente}}
+
+###
+
+GET http://localhost:3030/api/pedidos/{{pedidoId}}/detalles
+Authorization: Bearer {{tokenAdmin}}
+
+###
+
+GET http://localhost:3030/api/pedidos/clientes/{{pedidoId}}/detalles
+Authorization: Bearer {{tokenCliente}}
+
+###
+
+# Estados posibles para el pedido:
+# - pendiente: El pedido ha sido creado pero no ha sido aprobado ni procesado.
+# - aprobado: El pedido ha sido aprobado y está listo para ser procesado.
+# - enviado: El pedido ha sido enviado al cliente.
+# - entregado: El pedido ha sido entregado al cliente.
+# - cancelado: El pedido ha sido cancelado y no se procesará.
+
+
+PATCH http://localhost:3030/api/pedidos/{{pedidoId}}/estado
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+    "estado": "cancelado"
+}
