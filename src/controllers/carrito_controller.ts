@@ -317,21 +317,22 @@ export const cerrarCarrito = async (req: Request<CerrarCarritoInput>, res: Respo
             return sum;
         }
 
-        await tx.insert(Pedido).values({
+        const [pedidoResult] = await tx.insert(Pedido).values({
             clienteId: cliente.id,
             carritoId: carrito.id,
             total: total().toFixed(2)
         });
 
+        const nuevoPedidoId = pedidoResult.insertId;
+
         for (const p of productosCarrito) {
             await tx.insert(ProductoPedido).values({
-                pedidoId: p.carritoId,
+                pedidoId: nuevoPedidoId,
                 productoId: p.productoId,
                 precio: p.producto ? p.producto.precio : "0.00",
                 cantidad: p.cantidad
-             });
+            });
         }
-
         const result = await tx.update(Carrito).set({ cerrado: true }).where(
             and(
                 eq(Carrito.id, req.params.carritoId),

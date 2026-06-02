@@ -18,4 +18,4 @@ const storage = multer.diskStorage({
     }
 });
 
-export const uploadFile = multer({ storage: storage, fileFilter: imageFilter });
+export const uploadFile = multer({ storage: storage, fileFilter: imageFilter, limits: { fileSize: 8000000 } });

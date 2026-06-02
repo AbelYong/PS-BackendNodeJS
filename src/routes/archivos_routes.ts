@@ -3,7 +3,7 @@ import { authorize } from "../middlewares/authorize.js";
 import { asyncHandler } from "../middlewares/async_handler.js";
 import { validateParams } from "../middlewares/request_validator.js";
 import { idSchema } from "../schemas/general_schema.js";
-import { AdministradorCliente } from "../config/roles.js";
+import { Administrador, AdministradorCliente } from "../config/roles.js";
 import { uploadFile } from "../middlewares/upload.js";
 import {
     get,
@@ -22,10 +22,10 @@ router.get("/:id", authorize(AdministradorCliente), validateParams(idSchema), as
 
 router.get("/:id/detalle", authorize(AdministradorCliente), validateParams(idSchema), asyncHandler(getDetalle));
 
-router.post("/", authorize(AdministradorCliente), uploadFile.single("file"), asyncHandler(create));
+router.post("/", authorize(Administrador), uploadFile.single("file"), asyncHandler(create));
 
-router.put("/:id", authorize(AdministradorCliente), validateParams(idSchema), uploadFile.single("file"), asyncHandler(update));
+router.put("/:id", authorize(Administrador), validateParams(idSchema), uploadFile.single("file"), asyncHandler(update));
 
-router.delete("/:id", authorize(AdministradorCliente), validateParams(idSchema), asyncHandler(eliminate));
+router.delete("/:id", authorize(Administrador), validateParams(idSchema), asyncHandler(eliminate));
 
 export const archivosRouter = router;

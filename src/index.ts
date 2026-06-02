@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express, { Request, Response} from "express";
 import cors from "cors";
+import helmet from "helmet";
 import { categoriasRouter } from "./routes/categorias_routes.js";
 import { productosRouter } from "./routes/productos_routes.js";
 import { usuariosRouter } from "./routes/usuarios_routes.js";
@@ -20,6 +21,7 @@ import { fileURLToPath } from "node:url";
 const app = express();
 
 app.disable("x-powered-by");
+app.use(helmet());
 
 dotenv.config();
 
