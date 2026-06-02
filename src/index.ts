@@ -39,14 +39,18 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Swagger
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = (path.dirname(__filename));
+if (process.env["NODE_ENV"] === "development") {
+    console.log("Cargando documentación Swagger desde swagger-output.json");
 
-const swaggerFile = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, "../swagger-output.json"), "utf8")
-);
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = (path.dirname(__filename));
 
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+    const swaggerFile = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, "../swagger-output.json"), "utf8")
+    );
+
+    app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+}
 
 //Bitacora
 app.use(bitacoraLogger);
